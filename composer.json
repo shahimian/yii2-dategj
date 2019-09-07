@@ -3,7 +3,7 @@
     "description": "it convert Gregorian date to Jalali calendar one.",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","date","jalali","convert"],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
         {
