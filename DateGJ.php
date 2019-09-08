@@ -78,7 +78,7 @@ class DateGJ extends BaseObject
 	}
 
 	public function month(){
-		$datetime = explode(" ", $this->gj(date("Y-m-d H:i:s", $this->datetime)));
+		$datetime = explode(" ", $this->gj($this->datetime));
 		$date = count($datetime) ? explode("-", $datetime[0]) : null;
 		return count($date) ? $date[1] : null;
 	}
