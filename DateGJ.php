@@ -19,9 +19,8 @@ class DateGJ extends BaseObject
 		$datetime_arr=explode(' ',$this->datetime);
 		$date_arr=explode('-',$datetime_arr[0]);
 		list($jy, $jm, $jd) = $this->convertor($this->datetime);
-		$jd--;
-		$jm++;
 		if($jm < 10) $jm = "0$jm";
+		if($jd < 10) $jd = "0$jd";
 		$datetime="$jy-$jm-$jd ";
 		if(isset($datetime_arr[1]))
 		{

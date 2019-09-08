@@ -28,31 +28,36 @@ Usage
 Once the extension is installed, simply use it in your code by normally:
 
 ```php
-<?= \shahimian\dategj\DateGJ::gj("2019-09-07") ?>
+<?= $dt = \Yii::createObject([
+    'class' => \shahimian\dategj\DateGJ::className(),
+    'datetime' => '2019-09-08 11:56', /* format YYYY-MM-DD HH:MM */
+]); ?>
 ```
+You can set another value in `$dt->datetime` later if you want.
+
 ## Method Details
 You use various methods in this class presented in list below:
 
-**public static string gj($datetime : string)**
+**public string gj()**
 
-gets `$datetime` it formats `YYYY-MM-DD` as Gregorian date and converting that same format as Jalali date.
+gets `$dt->datetime` it formats `YYYY-MM-DD HH:MM` as Gregorian date and converting that same format as Jalali date.
 
-**public static Array convertor($datetime : string)**
+**public Array convertor()**
 
 gets argument with upper format and converting as array. it contains 3 cells for year, month and day.
 
-**public static integer month($datetime : string)**
+**public integer month()**
 
 gets argument and returning month number.
 
-**public static string month_name($month : integer)**
+**public string month_name($month : integer)**
 
 gets month number and returning month name as farsi language.
 
-**public static string full_date($datetime : string)**
+**public string full_date()**
 
 return full date contains year, month and day as farsi language.
 
-**public static string weekday($datetime : string)**
+**public string weekday()**
 
 return a day of the week as farsi language.
