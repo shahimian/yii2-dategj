@@ -2,13 +2,26 @@
 
 namespace shahimian\dategj;
 
-class DateGJ
+use yii\base\BaseObject;
+
+class DateGJ extends BaseObject
 {
-	public static function gj($datetime) 
+
+	public $datetime;
+
+	public function __construct($config = [])
 	{
-		$datetime_arr=explode(' ',$datetime);
+		parent::__construct($config);
+	}
+
+	public function gj()
+	{
+		$datetime_arr=explode(' ',$this->datetime);
 		$date_arr=explode('-',$datetime_arr[0]);
-		list($jy, $jm, $jd) = DateGJ::convertor($datetime);
+		list($jy, $jm, $jd) = $this->convertor($this->datetime);
+		$jd--;
+		$jm++;
+		if($jm < 10) $jm = "0$jm";
 		$datetime="$jy-$jm-$jd ";
 		if(isset($datetime_arr[1]))
 		{
@@ -18,8 +31,8 @@ class DateGJ
 		return $datetime;
 	}
 
-	public static function convertor($datetime) {
-		$datetime_arr=explode(' ',$datetime);
+	public function convertor() {
+		$datetime_arr=explode(' ',$this->datetime);
 		$date_arr=explode('-',$datetime_arr[0]);
 		
 		$g_y=$date_arr[0];
@@ -65,13 +78,13 @@ class DateGJ
 		return [ $jy, $jm , $jd ];
 	}
 
-	public static function month($datetime){
-		$datetime = explode(" ", DateGJ::gj(date("Y-m-d H:i:s", $datetime)));
+	public function month(){
+		$datetime = explode(" ", $this->gj(date("Y-m-d H:i:s", $this->datetime)));
 		$date = count($datetime) ? explode("-", $datetime[0]) : null;
 		return count($date) ? $date[1] : null;
 	}
 
-	public static function month_name($month){
+	public function month_name($month){
 		switch($month){
 			case 1: $str = 'فروردین'; break;
 			case 2: $str = 'اردیبهشت'; break;
@@ -90,13 +103,13 @@ class DateGJ
 		return $str;
 	}
 
-	public static function full_date($datetime){
-		list($jy, $jm, $jd) = DateGJ::convertor($datetime);
-		return DateGJ::weekday($datetime) . " $jd " . DateGJ::month_name($jm) . " $jy";
+	public function full_date(){
+		list($jy, $jm, $jd) = $this->convertor($this->datetime);
+		return $this->weekday($this->datetime) . " $jd " . $this->month_name($jm) . " $jy";
 	}
 
-	public static function weekday($datetime){
-		$w = date('w', strtotime($datetime));
+	public function weekday(){
+		$w = date('w', strtotime($this->datetime));
 		switch($w){
 			case 0: $d = 'یکشنبه'; break;
 			case 1: $d = 'دوشنبه'; break;
