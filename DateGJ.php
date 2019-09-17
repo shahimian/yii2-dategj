@@ -72,10 +72,21 @@ class DateGJ extends BaseObject
 		return [ $jy, $jm , $jd ];
 	}
 
-	public function month(){
+	public function dateSegment(){
 		$datetime = explode(" ", $this->gj($this->datetime));
-		$date = count($datetime) ? explode("-", $datetime[0]) : null;
-		return count($date) ? $date[1] : null;
+		return explode("-", $datetime[0]);
+	}
+
+	public function year(){
+		return $this->dateSegment()[0];
+	}
+
+	public function month(){
+		return $this->dateSegment()[1];
+	}
+
+	public function day(){
+		return $this->dateSegment()[2];
 	}
 
 	public function month_name($month){

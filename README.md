@@ -46,9 +46,17 @@ gets `$dt->datetime` it formats `YYYY-MM-DD HH:MM` as Gregorian date and convert
 
 gets argument with upper format and converting as array. it contains 3 cells for year, month and day.
 
+**public integer year()**
+
+gets argument and returning converted year number.
+
 **public integer month()**
 
-gets argument and returning month number.
+gets argument and returning converted month number.
+
+**public integer day()**
+
+gets argument and returning converted day number.
 
 **public string month_name($month : integer)**
 
@@ -61,3 +69,7 @@ return full date contains year, month and day as farsi language.
 **public string weekday()**
 
 return a day of the week as farsi language.
+
+**public Array dateSegment()**
+
+return Array that is year, month and day for its indeces respectively.
