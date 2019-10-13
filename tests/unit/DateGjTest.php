@@ -45,5 +45,10 @@ class DateGjTest extends \Codeception\Test\Unit
         $this->assertEquals('16', $this->tester->day());
     }
 
+    public function testDateJalaliToGregorianConvert(){
+        $this->tester->datetime = "1398-7-16 11:51";
+        $this->assertEquals('2019-10-8 11:51', $this->tester->jg());
+    }
+
 }
 ?>

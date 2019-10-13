@@ -18,14 +18,25 @@ class DateGJ extends BaseObject
 	{
 		$datetime_arr=explode(' ',$this->datetime);
 		$date_arr=explode('-',$datetime_arr[0]);
-		list($jy, $jm, $jd) = $this->convertor($this->datetime);
+		list($jy, $jm, $jd) = $this->toJalali();
 		$datetime="$jy-$jm-$jd ";
 		if(isset($datetime_arr[1]))
 			$datetime .= $datetime_arr[1];
 		return $datetime;
 	}
 
-	public function convertor() {
+	public function jg()
+	{
+		$datetime_arr=explode(' ',$this->datetime);
+		$date_arr=explode('-',$datetime_arr[0]);
+		list($jy, $jm, $jd) = $this->toGregorian();
+		$datetime="$jy-$jm-$jd ";
+		if(isset($datetime_arr[1]))
+			$datetime .= $datetime_arr[1];
+		return $datetime;
+	}
+
+	public function toJalali() {
 		$datetime_arr=explode(' ',$this->datetime);
 		$date_arr=explode('-',$datetime_arr[0]);
 		
@@ -109,7 +120,7 @@ class DateGJ extends BaseObject
 	}
 
 	public function full_date(){
-		list($jy, $jm, $jd) = $this->convertor($this->datetime);
+		list($jy, $jm, $jd) = $this->toJalali($this->datetime);
 		return $this->weekday($this->datetime) . " $jd " . $this->month_name($jm) . " $jy";
 	}
 
@@ -126,6 +137,71 @@ class DateGJ extends BaseObject
 		}
 		return $d;
 	}
+
+	public function toGregorian()
+    {
+
+		$datetime_arr=explode(' ',$this->datetime);
+		$date_arr=explode('-',$datetime_arr[0]);
+		
+		$j_y=$date_arr[0];
+		$j_m=$date_arr[1];
+		$j_d=$date_arr[2];
+
+        $g_days_in_month = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+        $j_days_in_month = array(31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29);
+
+        $jy = $j_y-979;
+        $jm = $j_m-1;
+        $jd = $j_d-1;
+
+        $j_day_no = 365*$jy + $this->div($jy, 33)*8 + $this->div($jy%33+3, 4);
+        for ($i=0; $i < $jm; ++$i)
+            $j_day_no += $j_days_in_month[$i];
+
+        $j_day_no += $jd;
+
+        $g_day_no = $j_day_no+79;
+
+        $gy = 1600 + 400*$this->div($g_day_no, 146097);
+        $g_day_no = $g_day_no % 146097;
+
+        $leap = true;
+        if ($g_day_no >= 36525) {
+            $g_day_no--;
+            $gy += 100*$this->div($g_day_no,  36524);
+            $g_day_no = $g_day_no % 36524;
+
+            if ($g_day_no >= 365)
+                $g_day_no++;
+            else
+                $leap = false;
+        }
+
+        $gy += 4*$this->div($g_day_no, 1461);
+        $g_day_no %= 1461;
+
+        if ($g_day_no >= 366) {
+            $leap = false;
+
+            $g_day_no--;
+            $gy += $this->div($g_day_no, 365);
+            $g_day_no = $g_day_no % 365;
+        }
+
+        for ($i = 0; $g_day_no >= $g_days_in_month[$i] + ($i == 1 && $leap); $i++)
+            $g_day_no -= $g_days_in_month[$i] + ($i == 1 && $leap);
+        $gm = $i+1;
+        $gd = $g_day_no+1;
+
+        return [ $gy, $gm, $gd ];
+
+	}
+	
+	private function div($a, $b)
+    {
+        return (int) ($a / $b);
+    }
 
 }
 ?>
